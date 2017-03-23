@@ -7,7 +7,7 @@
 This image is based on the [jenkinsci/docker-jnlp-slave:alpine](https://github.com/jenkinsci/docker-jnlp-slave/tree/alpine) but extends from CentOS 7 ([centos:7.3.1611](https://hub.docker.com/r/library/centos/tags/centos7.3.1611/)) instead of Alpine Linux ([openjdk:8-jdk-alpine](https://hub.docker.com/r/library/openjdk/tags/8-jdk-alpine/)).
 The agent (`slave.jar`) used in this image relies on the [Jenkins Remoting library](https://github.com/jenkinsci/remoting) and is taken from the base [Jenkins Agent Docker image](https://github.com/jenkinsci/docker-slave/).
 
-This image is ready-to-use for the [Jenkins Kubernetes Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Kubernetes+Plugin).
+This image is ready-to-use for the [Jenkins Kubernetes Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Kubernetes+Plugin). It contains additional packages which are need to build the project's software.
 
 See [Jenkins Distributed builds](https://wiki.jenkins-ci.org/display/JENKINS/Distributed+builds) for more information about how to use Jenkins agents.
 
@@ -15,7 +15,7 @@ See [Jenkins Distributed builds](https://wiki.jenkins-ci.org/display/JENKINS/Dis
 
 Run a Docker container with
 
-    docker run mhelm/docker-centos-slave -url http://jenkins-server:port <secret> <agent name>
+    docker run mhelm/docker-centos-slave:extended -url http://jenkins-server:port <secret> <agent name>
 
 Optional environment variables:
 
@@ -33,7 +33,7 @@ In the `Jenkinsfile` use this Docker image in the `containerTemplate` of the [Je
     podTemplate(label: 'kubernetes', containers: [
         containerTemplate(
           name: 'jnlp',
-          image: 'mhelm/docker-centos-slave',
+          image: 'mhelm/docker-centos-slave:extended',
           args: '${computer.jnlpmac} ${computer.name}',
           ttyEnabled: true,
           env: [
