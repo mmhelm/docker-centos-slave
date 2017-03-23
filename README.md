@@ -15,7 +15,7 @@ See [Jenkins Distributed builds](https://wiki.jenkins-ci.org/display/JENKINS/Dis
 
 Run a Docker container with
 
-    docker run mhelm/docker-centos-slave -url http://jenkins-server:port <secret> <agent name>
+    docker run mhelm/docker-centos-slave:latest -url http://jenkins-server:port <secret> <agent name>
 
 Optional environment variables:
 
@@ -33,7 +33,7 @@ In the `Jenkinsfile` use this Docker image in the `containerTemplate` of the [Je
     podTemplate(label: 'kubernetes', containers: [
         containerTemplate(
           name: 'jnlp',
-          image: 'mhelm/docker-centos-slave',
+          image: 'mhelm/docker-centos-slave:latest',
           args: '${computer.jnlpmac} ${computer.name}',
           ttyEnabled: true,
           env: [
