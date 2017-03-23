@@ -20,64 +20,23 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #  THE SOFTWARE.
 
-FROM centos:7.3.1611
+FROM mhelm/docker-centos-slave
 MAINTAINER Markus Helm <markus.m.helm@live.de>
 
+# Switch to user `root` to install the packages
+USER root
+
+# Install the additional packages which are need for build the project's software
 RUN \
 	yum -y install \
-		wget \
-		sudo \
-	&& \
-	wget \
-		--no-check-certificate \
-		--no-cookies \
-		--header "Cookie: oraclelicense=accept-securebackup-cookie" \
-		http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.rpm \
-	&& \
-	yum -y install \
-		jdk-7u80-linux-x64.rpm \
-	&& \
-	yum -y remove \
-		wget \
-	&& \
-	yum clean all \
-	&& \
-	yum-config-manager --disable *
+		xorg-x11-server-Xvfb \
+		unzip \
+		tar \
+		git \
+		perl-Data-Dumper \
+		perl-Sort-Versions \
+		perl-XML-Parser \
+		gcc-c++
 
-# Define location of the Oracle JDK
-ENV JAVA_HOME /usr/java/default
-# Define location of the Oracle JRE
-ENV JRE_HOME /usr/java/default/jre
-
-# Download the Jenkins Slave JAR
-RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/3.7/remoting-3.7.jar \
-	&& chmod 755 /usr/share/jenkins \
-	&& chmod 644 /usr/share/jenkins/slave.jar
-
-# Download the Jenkins Slave StartUp Script
-RUN curl --create-dirs -sSLo /usr/local/bin/jenkins-slave https://raw.githubusercontent.com/jenkinsci/docker-jnlp-slave/2.62/jenkins-slave \
-	&& chmod a+x /usr/local/bin/jenkins-slave
-
-# Add a dedicated jenkins system user
-RUN useradd --system --shell /bin/bash --create-home --home /home/jenkins jenkins
-
-#
-# This is actually a very dirty hack because it grants sudo privilieges to user `jenkins` without password!
-#
-# Unfortunately the CentOS installation needs some further adaptions to project specific needs which
-# cannot (or shoudn't) be done on the public internet (e.g. modify /etc/hosts, add certificates to java keystore, ...).
-#
-# If there's a better way to customize the installation during runtime with root access, you're welcome to improve
-# this Dockerfile or to describe the approach.
-#
-RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/jenkins
-
-# Switch to user `jenkins`
+# Switch back to user `jenkins`
 USER jenkins
-
-# Prepare the workspace for user `jenkins`
-RUN mkdir -p /home/jenkins/.jenkins
-VOLUME /home/jenkins/.jenkins
-WORKDIR /home/jenkins
-
-ENTRYPOINT ["jenkins-slave"]
