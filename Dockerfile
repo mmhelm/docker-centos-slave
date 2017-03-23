@@ -20,7 +20,7 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #  THE SOFTWARE.
 
-FROM mhelm/docker-centos-slave
+FROM mhelm/docker-centos-slave:latest
 MAINTAINER Markus Helm <markus.m.helm@live.de>
 
 # Switch to user `root` to install the packages
@@ -36,7 +36,9 @@ RUN \
 		perl-Data-Dumper \
 		perl-Sort-Versions \
 		perl-XML-Parser \
-		gcc-c++
+		gcc-c++ \
+	&& \
+	yum clean all
 
 # Switch back to user `jenkins`
 USER jenkins
