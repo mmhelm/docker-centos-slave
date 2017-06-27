@@ -37,6 +37,8 @@ RUN \
 	yum -y install \
 		jdk-7u80-linux-x64.rpm \
 	&& \
+	rm -rf jdk-7u80-linux-x64.rpm \
+	&& \
 	yum -y remove \
 		wget \
 	&& \
