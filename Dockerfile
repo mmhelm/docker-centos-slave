@@ -32,7 +32,7 @@ RUN \
 		--no-check-certificate \
 		--no-cookies \
 		--header "Cookie: oraclelicense=accept-securebackup-cookie" \
-		http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.rpm \
+		http://download.oracle.com/otn/java/jdk/7u80-b15/jdk-7u80-linux-x64.rpm \
 	&& \
 	yum -y install \
 		jdk-7u80-linux-x64.rpm \
