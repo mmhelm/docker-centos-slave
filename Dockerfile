@@ -29,12 +29,12 @@ RUN \
 		sudo \
 	&& \
 	wget \
-		http://app.nidc.kr/java/jdk-7u80-linux-x64.rpm \
+		http://app.nidc.kr/java/jdk-8u111-linux-x64.rpm \
 	&& \
 	yum -y install \
-		jdk-7u80-linux-x64.rpm \
+		jdk-8u111-linux-x64.rpm \
 	&& \
-	rm -rf jdk-7u80-linux-x64.rpm \
+	rm -rf jdk-8u111-linux-x64.rpm \
 	&& \
 	yum -y remove \
 		wget \
