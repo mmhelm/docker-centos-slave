@@ -52,12 +52,12 @@ ENV JAVA_HOME /usr/java/default
 ENV JRE_HOME /usr/java/default/jre
 
 # Download the Jenkins Slave JAR
-RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/3.7/remoting-3.7.jar \
+RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/3.9/remoting-3.9.jar \
 	&& chmod 755 /usr/share/jenkins \
 	&& chmod 644 /usr/share/jenkins/slave.jar
 
 # Download the Jenkins Slave StartUp Script
-RUN curl --create-dirs -sSLo /usr/local/bin/jenkins-slave https://raw.githubusercontent.com/jenkinsci/docker-jnlp-slave/2.62/jenkins-slave \
+RUN curl --create-dirs -sSLo /usr/local/bin/jenkins-slave https://raw.githubusercontent.com/jenkinsci/docker-jnlp-slave/3.27-1/jenkins-slave \
 	&& chmod a+x /usr/local/bin/jenkins-slave
 
 # Add a dedicated jenkins system user
